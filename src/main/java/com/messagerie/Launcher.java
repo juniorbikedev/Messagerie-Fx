@@ -1,4 +1,4 @@
-package com.messagerie.messagerieapp;
+package com.messagerie;
 
 import javafx.application.Application;
 

@@ -17,7 +17,6 @@ public class Server {
     private ServerSocket serverSocket;
 
     // Stocke les utilisateurs connectés (username → ClientHandler)
-    // ConcurrentHashMap permet l’accès sécurisé par plusieurs threads
     private ConcurrentHashMap<String, ClientHandler> onlineUsers;
 
     // Logger pour enregistrer les événements du serveur
@@ -32,16 +31,12 @@ public class Server {
     // Méthode pour configurer le logger
     private void setupLogger() {
         try {
-            // Création d’un fichier server.log (mode ajout activé)
             FileHandler fileHandler = new FileHandler("server.log", true);
 
-            // Format simple des logs
             fileHandler.setFormatter(new SimpleFormatter());
 
-            // Ajout du handler au logger
             logger.addHandler(fileHandler);
 
-            // Niveau de log (tout afficher)
             logger.setLevel(Level.ALL);
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,21 +46,18 @@ public class Server {
     // Méthode principale pour démarrer le serveur
     public void start() {
         try {
-            // Création du ServerSocket sur le port défini
             serverSocket = new ServerSocket(PORT);
             log("Server started on port " + PORT);
 
             // Boucle infinie pour accepter plusieurs clients
             while (true) {
 
-                // Attente d’un client
                 Socket clientSocket = serverSocket.accept();
                 log("New client connected: " + clientSocket.getInetAddress());
 
                 // RG11: Chaque client est géré dans un thread séparé
                 ClientHandler clientHandler = new ClientHandler(clientSocket, this);
 
-                // Création et démarrage du thread
                 Thread thread = new Thread(clientHandler);
                 thread.start();
             }

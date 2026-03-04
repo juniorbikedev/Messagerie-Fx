@@ -4,61 +4,33 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <!-- =================================== -->
-        <!-- Configuration spécifique PostgreSQL -->
-        <!-- =================================== -->
 
-        <!-- Dialecte PostgreSQL: indique à Hibernate comment générer le SQL
-             spécifique à PostgreSQL (séquences, types de données, etc.) -->
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
 
-        <!-- Driver JDBC pour PostgreSQL -->
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
 
-        <!-- URL de connexion JDBC pour PostgreSQL
-             Format: jdbc:postgresql://[hôte]:[port]/[base_de_données] -->
         <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/messagerie_db</property>
 
-        <!-- Identifiants de connexion PostgreSQL -->
         <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.connection.password">passer</property>
 
-        <!-- =================================== -->
-        <!-- Configuration du pool de connexions -->
-        <!-- =================================== -->
 
-        <!-- Pool de connexions C3P0 pour PostgreSQL -->
-        <property name="hibernate.c3p0.min_size">5</property>      <!-- Connexions minimales -->
-        <property name="hibernate.c3p0.max_size">20</property>     <!-- Connexions maximales -->
-        <property name="hibernate.c3p0.timeout">300</property>     <!-- Timeout en secondes -->
-        <property name="hibernate.c3p0.max_statements">50</property> <!-- Statements préparés -->
-        <property name="hibernate.c3p0.idle_test_period">3000</property> <!-- Test périodique -->
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.max_size">20</property>
+        <property name="hibernate.c3p0.timeout">300</property>
+        <property name="hibernate.c3p0.max_statements">50</property>
+        <property name="hibernate.c3p0.idle_test_period">3000</property>
 
-        <!-- =================================== -->
-        <!-- Configuration Hibernate générale    -->
-        <!-- =================================== -->
 
-        <!-- Afficher les requêtes SQL générées dans la console (utile pour debug) -->
+
         <property name="hibernate.show_sql">true</property>
 
-        <!-- Formater les requêtes SQL pour une meilleure lisibilité -->
         <property name="hibernate.format_sql">true</property>
 
-        <!-- Stratégie de génération du schéma:
-             update: met à jour automatiquement le schéma (pratique pour le développement)
-             create: recrée la base à chaque démarrage
-             validate: valide seulement le schéma
-             none: ne fait rien -->
         <property name="hibernate.hbm2ddl.auto">update</property>
 
-        <!-- Contexte de session courant -->
         <property name="hibernate.current_session_context_class">thread</property>
 
-        <!-- =================================== -->
-        <!-- Mappage des entités JPA            -->
-        <!-- =================================== -->
-
-        <!-- Liste des classes d'entités à mapper -->
         <mapping class="com.messagerie.model.User"/>
         <mapping class="com.messagerie.model.Message"/>
     </session-factory>

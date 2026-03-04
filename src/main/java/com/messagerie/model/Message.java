@@ -3,57 +3,42 @@ package com.messagerie.model;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-/**
- * Classe représentant un message échangé entre deux utilisateurs
- *
- * @author MessagerieApp
- */
 
 @Entity
 @Table(name = "messages")
 public class Message {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-incrémentation PostgreSQL
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne // Relation Many-to-One: plusieurs messages peuvent être envoyés par un utilisateur
+    @ManyToOne
     @JoinColumn(name = "sender_id", nullable = false)
-    // sender_id sera une clé étrangère vers la table users
-    private User sender; // Expéditeur du message
+    private User sender;
 
     @ManyToOne
     @JoinColumn(name = "receiver_id", nullable = false)
-    private User receiver; // Destinataire du message
+    private User receiver;
 
     @Column(nullable = false, length = 1000)
-    // length = 1000 -> RG7: Le message ne doit pas dépasser 1000 caractères
-    private String contenu; // Contenu textuel du message
+    private String contenu;
 
     @Column(name = "date_envoi")
-    private LocalDateTime dateEnvoi; // Date et heure d'envoi
+    private LocalDateTime dateEnvoi;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    private MessageStatus statut; // ENVOYE, RECU, LU
+    private MessageStatus statut;
 
-    /**
-     * Constructeur par défaut JPA
-     */
+
     public Message() {}
 
-    /**
-     * Constructeur pour créer un nouveau message
-     * @param sender Expéditeur
-     * @param receiver Destinataire
-     * @param contenu Contenu du message
-     */
     public Message(User sender, User receiver, String contenu) {
         this.sender = sender;
         this.receiver = receiver;
         this.contenu = contenu;
-        this.dateEnvoi = LocalDateTime.now(); // Horodatage automatique
-        this.statut = MessageStatus.ENVOYE; // Statut initial: ENVOYE
+        this.dateEnvoi = LocalDateTime.now();
+        this.statut = MessageStatus.ENVOYE;
     }
 
     // Getters et Setters

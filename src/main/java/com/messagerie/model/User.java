@@ -4,61 +4,45 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * Classe représentant un utilisateur de l'application de messagerie
- * Mappée avec JPA pour la persistance en base de données PostgreSQL
- *
- * @author MessagerieApp
- * @version 1.0
- */
-@Entity // Indique que cette classe est une entité JPA (sera mappée à une table)
-@Table(name = "users") // Spécifie le nom de la table dans PostgreSQL
+@Entity
+@Table(name = "users")
 public class User {
 
-    @Id // Marque ce champ comme clé primaire
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-incrémentation PostgreSQL (SERIAL)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false, length = 50)
-    // unique = true -> RG1: Le username doit être unique
-    // nullable = false -> Le username est obligatoire
     private String username;
 
-    @Column(nullable = false) // Le mot de passe est obligatoire
-    private String password; // Sera stocké hashé (RG9)
+    @Column(nullable = false)
+    private String password;
 
-    @Enumerated(EnumType.STRING) // Stocke l'enum sous forme de texte dans PostgreSQL
+    @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    private UserStatus status; // ONLINE ou OFFLINE (RG4)
+    private UserStatus status;
 
-    @Column(name = "date_creation") // Nom de la colonne dans PostgreSQL
-    private LocalDateTime dateCreation; // Date d'inscription
+    @Column(name = "date_creation")
+    private LocalDateTime dateCreation;
 
     // Relations OneToMany pour les messages envoyés et reçus
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Message> sentMessages; // Messages envoyés par cet utilisateur
 
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Message> receivedMessages; // Messages reçus par cet utilisateur
+    private List<Message> receivedMessages;
 
-    /**
-     * Constructeur par défaut requis par JPA
-     */
     public User() {}
 
-    /**
-     * Constructeur pour créer un nouvel utilisateur
-     * @param username Nom d'utilisateur unique
-     * @param password Mot de passe hashé
-     */
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.dateCreation = LocalDateTime.now(); // Date d'inscription automatique
-        this.status = UserStatus.OFFLINE; // Par défaut, nouvel utilisateur est hors ligne
+        this.dateCreation = LocalDateTime.now();
+        this.status = UserStatus.OFFLINE;
     }
 
-    // Getters et Setters avec commentaires
+    // Getters et Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -74,10 +58,7 @@ public class User {
     public LocalDateTime getDateCreation() { return dateCreation; }
     public void setDateCreation(LocalDateTime dateCreation) { this.dateCreation = dateCreation; }
 
-    /**
-     * toString adapté pour l'affichage dans l'interface
-     * @return Représentation textuelle de l'utilisateur avec son statut
-     */
+
     @Override
     public String toString() {
         return username + " (" + status + ")";

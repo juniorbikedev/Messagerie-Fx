@@ -16,7 +16,6 @@
     </properties>
 
     <dependencies>
-
         <!-- JPA / Hibernate -->
         <dependency>
             <groupId>javax.persistence</groupId>
@@ -131,8 +130,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <release>17</release>
                 </configuration>
             </plugin>
 
